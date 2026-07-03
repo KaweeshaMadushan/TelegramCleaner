@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Selector Test</title>
+    <style>
+        :root { --primary: #0088cc; --accent: #6c5ce7; --success: #00d2d3; --danger: #ff4757; }
+        body { font-family: Arial, sans-serif; padding: 20px; }
+
+        .country-phone-row {
+            display: flex !important; align-items: center !important; gap: 15px !important; margin-bottom: 20px !important;
+            width: 100% !important;
+        }
+        .country-selector { flex-shrink: 0 !important; }
+        .phone-input-container { flex: 1 !important; }
+
+        .country-input-container { position: relative; }
+        .country-flag-display {
+            display: flex; align-items: center; justify-content: space-between; padding: 12px 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px;
+            cursor: pointer; transition: 0.3s; font-weight: 600; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            min-width: 140px;
+        }
+        .country-flag-display:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4); }
+        .country-display-content { display: flex; align-items: center; }
+        .dropdown-arrow { font-size: 12px; transition: 0.3s; }
+        .country-flag-display:hover .dropdown-arrow { transform: rotate(180deg); }
+        #country-flag { font-size: 18px; margin-right: 8px; }
+        #country-text { font-size: 13px; font-weight: 500; }
+
+        .country-dropdown {
+            position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #eef2f6;
+            border-radius: 12px; max-height: 250px; overflow-y: auto; z-index: 100; display: none;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15); margin-top: 5px;
+        }
+        .country-item {
+            padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #f5f5f5; display: flex; align-items: center;
+            transition: 0.2s;
+        }
+        .country-item:hover { background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%); }
+        .country-item:last-child { border-bottom: none; }
+        .country-flag { margin-right: 12px; font-size: 18px; }
+        .country-code { font-weight: 600; color: var(--primary); margin-right: 12px; min-width: 50px; }
+        .country-name { flex: 1; font-weight: 500; }
+
+        .phone-input-container {
+            position: relative; display: flex; align-items: center;
+        }
+        .phone-prefix {
+            position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+            color: var(--primary); font-weight: 600; font-size: 14px;
+            z-index: 2; pointer-events: none; background: white; padding: 0 5px;
+            line-height: 1; display: flex; align-items: center; height: 20px;
+        }
+        .phone-input-container input {
+            width: 100% !important; padding: 12px 15px 12px 55px !important; border: 1.5px solid #eef2f6 !important; border-radius: 12px !important;
+            font-size: 14px !important; background: #fdfdfe !important; transition: 0.3s !important; height: 48px !important; box-sizing: border-box !important;
+            line-height: 1.4 !important; vertical-align: middle !important;
+        }
+        .phone-input-container input:focus { border-color: var(--primary) !important; outline: none !important; background: #fff !important; }
+    </style>
+</head>
+<body>
+    <h2>Country Selector Test</h2>
+
+    <div class="country-phone-row">
+        <div class="country-selector">
+            <div class="country-input-container">
+                <div class="country-flag-display" id="country-flag-display" onclick="toggleCountryDropdown()">
+                    <div class="country-display-content">
+                        <span id="country-flag">🌍</span>
+                        <span id="country-text">Select Country</span>
+                    </div>
+                    <span class="dropdown-arrow">▼</span>
+                </div>
+                <input type="text" id="country-search" placeholder="Search country..." onkeyup="filterCountries()" style="display: none;">
+                <div class="country-dropdown" id="country-dropdown"></div>
+            </div>
+        </div>
+
+        <div class="phone-input-container">
+            <span class="phone-prefix" id="phone-prefix">+1</span>
+            <input type="text" id="phone" placeholder="712345678" oninput="autoDetectCountry(this.value)">
+        </div>
+    </div>
+
+    <script>
+        const countries = [
+            { name: "United States", code: "+1", flag: "🇺🇸" },
+            { name: "United Kingdom", code: "+44", flag: "🇬🇧" },
+            { name: "India", code: "+91", flag: "🇮🇳" },
+            { name: "Sri Lanka", code: "+94", flag: "🇱🇰" },
+            { name: "Bangladesh", code: "+880", flag: "🇧🇩" },
+            { name: "Canada", code: "+1", flag: "🇨🇦" },
+            { name: "Australia", code: "+61", flag: "🇦🇺" }
+        ];
+
+        function initializeCountries() {
+            const dropdown = document.getElementById('country-dropdown');
+            dropdown.innerHTML = '';
+
+            countries.forEach(country => {
+                const item = document.createElement('div');
+                item.className = 'country-item';
+                item.onclick = () => selectCountry(country);
+                item.innerHTML = `
+                    <span class="country-flag">${country.flag}</span>
+                    <span class="country-code">${country.code}</span>
+                    <span class="country-name">${country.name}</span>
+                `;
+                dropdown.appendChild(item);
+            });
+        }
+
+        function selectCountry(country) {
+            document.getElementById('country-flag').textContent = country.flag;
+            document.getElementById('country-text').textContent = country.name.split(' ')[0];
+            document.getElementById('phone-prefix').textContent = country.code;
+            document.getElementById('country-dropdown').style.display = 'none';
+            document.getElementById('country-search').style.display = 'none';
+            document.getElementById('country-search').value = '';
+            document.getElementById('phone').focus();
+        }
+
+        function toggleCountryDropdown() {
+            const dropdown = document.getElementById('country-dropdown');
+            const search = document.getElementById('country-search');
+
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+                search.style.display = 'block';
+                search.focus();
+                filterCountries();
+            }
+        }
+
+        function filterCountries() {
+            const searchTerm = document.getElementById('country-search').value.toLowerCase();
+            const items = document.querySelectorAll('.country-item');
+
+            items.forEach(item => {
+                const countryName = item.querySelector('.country-name').textContent.toLowerCase();
+                const countryCode = item.querySelector('.country-code').textContent.toLowerCase();
+
+                if (countryName.includes(searchTerm) || countryCode.includes(searchTerm)) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            const dropdown = document.getElementById('country-dropdown');
+            const hasVisibleItems = Array.from(items).some(item => item.style.display !== 'none');
+            dropdown.style.display = hasVisibleItems ? 'block' : 'none';
+        }
+
+        function autoDetectCountry(input) {
+            if (input.startsWith('+') && input.length >= 2) {
+                const matchingCountry = countries.find(country => {
+                    return input.startsWith(country.code) ||
+                           input === country.code ||
+                           (input.length > country.code.length && input.startsWith(country.code));
+                });
+
+                if (matchingCountry && document.getElementById('country-flag').textContent === '🌍') {
+                    selectCountry(matchingCountry);
+                }
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            const container = document.querySelector('.country-input-container');
+            const flagDisplay = document.getElementById('country-flag-display');
+
+            if (!container.contains(event.target) && !flagDisplay.contains(event.target)) {
+                document.getElementById('country-dropdown').style.display = 'none';
+                document.getElementById('country-search').value = '';
+                document.getElementById('country-search').style.display = 'none';
+            }
+        });
+
+        initializeCountries();
+    </script>
+</body>
+</html>

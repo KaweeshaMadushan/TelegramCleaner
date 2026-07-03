@@ -1,64 +1,37 @@
-# TG Cleaner Pro
+# 🛡️ TG Cleaner Pro - Telegram Account Optimizer
 
-A professional Telegram group and channel cleaner web application that helps users efficiently manage and leave unwanted groups in bulk.
+[![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![Python](https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![Pyrogram](https://img.shields.io/badge/Pyrogram-Asyncio-0088cc?style=for-the-badge&logo=telegram&logoColor=white)](https://docs.pyrogram.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](LICENSE)
 
-## Features
+An elite, high-performance **Telegram Group & Channel Bulk Cleaner** web application. Built securely using **FastAPI** and **Pyrogram (Asyncio)**, it allows users to safely authenticate and leave unwanted groups/channels in bulk while maintaining a smart whitelist.
 
-- **Secure Login**: Authenticate using your Telegram phone number and OTP
-- **Smart Selection**: Choose which groups/channels to keep
-- **Bulk Cleanup**: Automatically leave multiple groups at once
-- **Progress Tracking**: Real-time progress updates during cleanup
-- **2FA Support**: Handles two-factor authentication
-- **Flood Protection**: Built-in delays to prevent Telegram rate limits
+---
 
-## Setup
+## ✨ Key Features
 
-1. **Clone or download** the project files
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-3. **Configure environment**:
-   - Create a `.env` file in the root directory
-   - Add your Telegram API credentials:
-     ```
-     API_ID=your_api_id
-     API_HASH=your_api_hash
-     ```
-   - Get these from [Telegram API](https://my.telegram.org/auth)
+- 🔐 **Secure Session Handling**: Direct official Telegram OAuth via OTP & 2FA support.
+- ⚙️ **Smart Filter & Whitelist**: Choose exactly which groups/channels you want to KEEP.
+- 🚀 **Asynchronous Bulk Leave**: Super-fast operations handled in the background.
+- 🛑 **Rate-Limit & Flood Protection**: Built-in dynamic delays to keep accounts safe from Telegram bans.
+- 💎 **Pro & Free Tiers**: Built-in limitation system (Free tier limits to 10 keeps, Pro tier unlocks unlimited).
+- 🧹 **Zero Data Retention**: Temporary sessions are wiped automatically post-cleanup.
 
-4. **Run the application**:
-   ```bash
-   uvicorn main:app --reload
-   ```
+---
 
-5. **Open your browser** and go to `http://localhost:8000`
+## 🛠️ Tech Stack
 
-## Usage
+- **Backend:** FastAPI (Python)
+- **Telegram Wrapper:** Pyrogram v2 (Async IO)
+- **Frontend:** Modern HTML5 / Premium CSS3 (Plus Jakarta Sans UI) with real-time polling.
+- **Environment:** Dotenv for strict credential isolation.
 
-1. Enter your phone number in international format (+947XXXXXXXX)
-2. Enter the verification code sent to your Telegram
-3. If you have 2FA enabled, enter your password
-4. Select the groups you want to KEEP (uncheck the ones to leave)
-5. Click "Start Cleanup" to begin the process
-6. Wait for the cleanup to complete - your session will be logged out automatically
+---
 
-## Security Notes
+## 🚀 Quick Setup & Installation
 
-- Your API credentials are stored securely in environment variables
-- Sessions are temporary and cleared after cleanup
-- No user data is stored permanently
-- All operations are performed client-side with your credentials
-
-## Limitations
-
-- Free version allows keeping max 10 groups per cleanup
-- Pro version removes this limitation (contact developer)
-
-## Support
-
-For issues or feature requests, please contact the developer.
-
-## License
-
-This project is for educational purposes. Use responsibly and in accordance with Telegram's Terms of Service.
+### 1. Clone the Project
+```bash
+git clone [https://github.com/YOUR_USERNAME/TG-Cleaner-Pro.git](https://github.com/YOUR_USERNAME/TG-Cleaner-Pro.git)
+cd TG-Cleaner-Pro
